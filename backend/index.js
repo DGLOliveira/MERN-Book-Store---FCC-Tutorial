@@ -9,6 +9,11 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors({
+        origin: `http://localhost:${PORT}`
+    }));
+}
 app.use(express.json());
 
 connectdb();
