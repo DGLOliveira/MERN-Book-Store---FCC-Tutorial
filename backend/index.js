@@ -1,11 +1,24 @@
 import express from 'express';
-import { PORT } from './config.js';
+import dotenv from 'dotenv';
+import connectdb from './db.js'; 
+import booksRouter from './routes/book.routes.js';
+
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+app.use(express.json());
+
+connectdb();
+
+app.use("/books", booksRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+
 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:" + PORT);
