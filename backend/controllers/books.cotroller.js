@@ -1,5 +1,15 @@
 import Book from "../models/book.js";
-//app.post("/books",
+
+
+export const getAllBooks = async (req, res) => {
+    try {
+        const books = await Book.find();
+        res.status(200).json(books);
+    } catch (error) {
+        console.log("Error in getting all books!",error);
+        res.status(500).send("Internal Server Error");
+    }
+}
 
 
 export const createBook = async (req, res) => {
