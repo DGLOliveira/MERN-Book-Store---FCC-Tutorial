@@ -42,3 +42,25 @@ export const createBook = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
+
+export const updateBookById = async (req, res) => {
+    try {
+        if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+            return res.status(400).send("Invalid Book id!");
+        }
+        if(!req.body){
+            return res.status(400).send("No data provided!");
+        }
+        if(!req.body.title && !req.body.author && !req.body.publishYear){
+            return res.status(400).send("No valid data provided!");
+        }
+        const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if(!updatedBook){
+            return res.status(404).send("Book not found!");
+        }
+        res.status(200).json(updatedBook);
+    } catch (error) {
+        console.log("Error in updating book by id!",error);
+        res.status(500).send("Internal Server Error");
+    }
+}
