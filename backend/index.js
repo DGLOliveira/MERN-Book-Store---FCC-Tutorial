@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectdb from './db.js'; 
 import booksRouter from './routes/book.routes.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const app = express();
 
 if (process.env.NODE_ENV !== "production") {
     app.use(cors({
-        origin: `http://localhost:${PORT}`
+        origin: `http://localhost:5173`
     }));
 }
 app.use(express.json());
