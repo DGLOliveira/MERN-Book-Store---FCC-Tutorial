@@ -1,8 +1,81 @@
-import React from 'react'
+import { useState, useEffect} from 'react'
+import axios from 'axios';
+import Spinner from '../components/Spinner.jsx';
+import BackButton from '../components/BackButton.jsx';
+import {MdOutlineAddBox} from "react-icons/md";
+import { useNavigate } from 'react-router';
+
 
 const CreateBook = () => {
+    const navigate = useNavigate();
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [publishYear, setPublishYear] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const createBook = (e, values) => {
+        e.preventDefault();
+        setLoading(true);
+        const book = {title, author, publishYear};
+        axios.post('http://localhost:5000/books', book)
+            .then(res => {
+                alert("Book created successfully!");
+                navigate('/');
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err)
+                alert("Error in creating book!");
+                setLoading(false);
+            });
+    }           
+
+
   return (
-    <div>CreateBook</div>
+    <div>
+      <div className="flex justify-between items-center bg-gray-800 text-white p-4 m-0">
+        <h1 className='text-2xl my-8'>Books List</h1>
+        <BackButton />
+      </div>
+      {loading ? <Spinner />: null}
+        <div className='flex flex-col  w-fit p-4'>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Title</span>
+            <input 
+            type="text" 
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' 
+            placeholder="Book Title" 
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Author</span>
+            <input 
+            type="text" 
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' 
+            placeholder="Book Author" 
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            />
+          </div>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Publish Year</span>
+            <input 
+            type="number" 
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' 
+            placeholder="Publish Year" 
+            value={publishYear}
+            onChange={(e) => setPublishYear(e.target.value)}
+            />
+          </div>
+          <div className='my-4'>
+            <button onClick={(e) => createBook(e)} className='px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded flex items-center'>
+                <MdOutlineAddBox className='mr-2' /> Add Book
+            </button>
+          </div>
+        </div>
+    </div>
   )
 }
 
