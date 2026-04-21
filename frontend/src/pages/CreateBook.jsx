@@ -33,12 +33,12 @@ const CreateBook = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center bg-gray-800 text-white p-4 m-0">
+      <div className="flex justify-between items-center bg-gray-800 text-white p-4 m-0 mb-4">
         <h1 className='text-2xl my-8'>Books List</h1>
         <BackButton />
       </div>
       {loading ? <Spinner />: null}
-        <div className='flex flex-col  w-fit p-4'>
+        <div className='flex flex-col border border-gray-300 rounded-2xl w-150 p-4 mx-auto'>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Title</span>
             <input 
